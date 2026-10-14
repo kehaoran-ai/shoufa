@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>首发 · 做你的第一个产品</title>
+<link rel="stylesheet" href="/forms/forms.css">
+</head>
+<body class="wide">
+<div class="shell wide" id="app">
+  <div class="top">
+    <div class="logo"><i>首</i><span data-en="Shoufa">首发</span></div>
+    <span class="grow"></span>
+    <div class="progress">
+      <span class="on" id="p1"><b>1</b><i data-en="Look">选风格</i></span><em></em>
+      <span id="p2"><b>2</b><i data-en="Content">选内容</i></span><em></em>
+      <span><b>3</b><i data-en="Preview">预览</i></span><em></em>
+      <span><b>4</b><i data-en="Go live">上线</i></span>
+    </div>
+  </div>
+
+  <!-- ===================== steps A and B: choices on the left, a real sample page on the right ===================== -->
+  <div class="split" id="split">
+    <div class="side">
+      <div id="stepA">
+        <h1 data-en="First, pick a look you like">先挑一个你喜欢的样子</h1>
+        <p class="lede" data-en="Click one and the sample follows. Your page will look like this.">点一下，示例跟着换。你的页面会是这个样子。</p>
+        <div class="choices list" data-group="style">
+          <button class="choice row" data-value="mono" aria-pressed="true"><div class="thumb"><img data-look="mono" src="/forms/thumbs/mono-zh.jpg" alt=""></div><span><b data-en="Mono">素白</b><small data-en="Black and white, quiet and precise.">黑白两色，安静、精确</small></span></button>
+          <button class="choice row" data-value="blueprint" aria-pressed="false"><div class="thumb"><img data-look="blueprint" src="/forms/thumbs/blueprint-zh.jpg" alt=""></div><span><b data-en="Blueprint">线稿</b><small data-en="Grid paper, crisp lines, a button you want to press.">方格纸、清楚的线条、有按键感</small></span></button>
+          <button class="choice row" data-value="soft" aria-pressed="false"><div class="thumb"><img data-look="soft" src="/forms/thumbs/soft-zh.jpg" alt=""></div><span><b data-en="Soft">柔和</b><small data-en="Round shapes, warm paper, your colour on the button.">圆润、暖白底，按钮用你的主色</small></span></button>
+        </div>
+        <p class="label" data-en="Show it as">示例页面</p>
+          <div class="chips" id="sampleType">
+            <button class="chip" data-value="landing" aria-pressed="true" data-en="A product page">产品落地页</button>
+            <button class="chip" data-value="personal" aria-pressed="false" data-en="A personal homepage">个人主页</button>
+            <button class="chip" data-value="app" aria-pressed="false" data-en="A tool">小工具</button>
+          </div>
+      </div>
+
+      <div id="stepB" class="hidden">
+        <h1 data-en="What do you want to make?">你想做什么？</h1>
+        <p class="lede" data-en="Not sure? Most people start with one of the first two.">拿不准的话，大多数人从前两个开始。</p>
+        <div class="choices list" data-group="type">
+          <button class="choice" data-value="personal" aria-pressed="false"><span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></span><b><span data-en="Personal homepage">个人主页</span><span class="badge" data-en="Popular">推荐</span></b><small data-en="Who you are, what you've made, how to reach you.">介绍你自己、放作品、留联系方式</small></button>
+          <button class="choice" data-value="landing" aria-pressed="false"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 13h6M7 16h4"/></svg></span><b><span data-en="Product landing page">产品落地页</span><span class="badge" data-en="Popular">推荐</span></b><small data-en="Explain an app, service or idea and get people to try it.">讲清一个产品或服务，让人想试试</small></button>
+          <button class="choice" data-value="app" aria-pressed="false"><span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h4"/><circle cx="16.5" cy="16.5" r="1.5"/></svg></span><b data-en="A tool people can use">能用的小工具</b><small data-en="Timers, budgets, habit trackers, pickers. Opens and works.">计时、记账、打卡、抽签……打开就能用</small></button>
+          <button class="choice" data-value="other" aria-pressed="false"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span><b data-en="Something else">其他</b><small data-en="Describe it in one sentence.">用一句话说说你想做什么</small></button>
+        </div>
+        <div class="field hidden" id="otherBox">
+          <textarea id="otherDesc" data-zh-placeholder="比如：给我的烘焙小店做个网站，能看到菜单和地址" placeholder="比如：给我的烘焙小店做个网站，能看到菜单和地址" data-en-placeholder="e.g. a site for my bakery with the menu and our address"></textarea>
+        </div>
+        <div class="q">
+          <h2 data-en="Pick a main colour">选个主色</h2>
+          <p class="hint" data-en="Buttons and highlights use it. Your brand colour works great.">按钮和重点会用这个颜色，有品牌色就用品牌色。</p>
+          <div class="swatches" id="swatches">
+            <button class="swatch" data-value="#2e4bff" style="background:#2e4bff" aria-label="blue" aria-pressed="false"></button>
+            <button class="swatch" data-value="#e4572e" style="background:#e4572e" aria-label="orange" aria-pressed="false"></button>
+            <button class="swatch" data-value="#0f8a5f" style="background:#0f8a5f" aria-label="green" aria-pressed="false"></button>
+            <button class="swatch" data-value="#7c3aed" style="background:#7c3aed" aria-label="purple" aria-pressed="false"></button>
+            <button class="swatch" data-value="#db2777" style="background:#db2777" aria-label="pink" aria-pressed="false"></button>
+            <button class="swatch" data-value="#d9773b" style="background:#d9773b" aria-label="amber" aria-pressed="false"></button>
+            <button class="swatch" data-value="#0e7490" style="background:#0e7490" aria-label="teal" aria-pressed="false"></button>
+            <button class="swatch" data-value="#141518" style="background:#141518" aria-label="black" aria-pressed="false"></button>
+            <label class="custom"><input type="color" id="customColor" value="#2e4bff"><span data-en="Your own">自定义</span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="viewer" aria-label="sample">
+      <div class="vbar"><i></i><i></i><i></i><span id="vlabel"></span></div>
+      <div class="vbox" id="vbox"><iframe id="sample" title="sample page"></iframe></div>
+    </div>
+  </div>
+
+  <!-- ===================== step 2: details (optional) ===================== -->
+  <div id="stepC" class="hidden">
+    <h1 data-en="Tell me a little more">再多告诉我一点</h1>
+    <p class="lede" data-en="Everything here is optional. The more you fill in, the more it will look like you. Blank fields get sample text you can change later.">这里全部可以不填。填得越细，出来越像你；空着的地方 AI 会先写示例文字，之后能改。</p>
+
+    <!-- personal -->
+    <div data-for="personal">
+      <div class="row2">
+        <div class="field"><label data-en="Your name">名字</label><input type="text" name="name" placeholder="林小雨" data-en-placeholder="Alex Lin"></div>
+        <div class="field"><label data-en="What you do">一句话身份</label><input type="text" name="role" placeholder="独立设计师 · 上海" data-en-placeholder="Independent designer in Berlin"></div>
+      </div>
+      <div class="field"><label><span data-en="Photo">头像</span><small data-en="optional">可选</small></label>
+        <label class="upload"><img alt=""><span data-en="Choose a photo">点这里选一张照片</span><input type="file" accept="image/*" name="avatar"></label></div>
+      <div class="field"><label data-en="About you">介绍一下自己</label><textarea name="about" placeholder="做过什么、擅长什么、现在在做什么" data-en-placeholder="What you've done, what you're good at, what you're doing now"></textarea></div>
+      <div class="field"><label><span data-en="Your work">作品或项目</span><small data-en="up to 6">最多 6 个</small></label>
+        <div class="rep" data-rep="works" data-max="6" data-fields="title:名称|Name;text:一句话说明|One-line description;href:链接（可选）|Link (optional)"></div></div>
+      <div class="field"><label data-en="Where people can find you">联系方式和社交账号</label>
+        <div class="row2">
+          <input type="email" name="email" placeholder="邮箱" data-en-placeholder="Email">
+          <input type="text" name="wechat" placeholder="微信号（可选）" data-en-placeholder="WeChat (optional)">
+          <input type="url" name="xiaohongshu" placeholder="小红书主页链接" data-en-placeholder="Xiaohongshu link">
+          <input type="url" name="github" placeholder="GitHub 链接" data-en-placeholder="GitHub link">
+          <input type="url" name="x" placeholder="X / 推特链接" data-en-placeholder="X / Twitter link">
+          <input type="url" name="other_link" placeholder="其他链接" data-en-placeholder="Any other link">
+        </div></div>
+    </div>
+
+    <!-- landing -->
+    <div data-for="landing">
+      <div class="row2">
+        <div class="field"><label data-en="Product name">产品名</label><input type="text" name="product" placeholder="Tomato" data-en-placeholder="Tomato"></div>
+        <div class="field"><label data-en="Who is it for?">给谁用</label><input type="text" name="audience" placeholder="容易分心的学生和上班族" data-en-placeholder="Students and busy people who get distracted"></div>
+      </div>
+      <div class="field"><label data-en="What does it do, in one sentence?">一句话说清它是做什么的</label><input type="text" name="pitch" placeholder="一个只做一件事的番茄钟，帮你专注 25 分钟" data-en-placeholder="A focus timer that does one thing: helps you focus for 25 minutes"></div>
+      <div class="row2">
+        <div class="field"><label><span data-en="Logo">Logo</span><small data-en="optional">可选</small></label><label class="upload"><img alt=""><span data-en="Choose an image">点这里选图片</span><input type="file" accept="image/*" name="logo"></label></div>
+        <div class="field"><label><span data-en="Screenshot">产品截图</span><small data-en="optional">可选</small></label><label class="upload"><img alt=""><span data-en="Choose an image">点这里选图片</span><input type="file" accept="image/*" name="screenshot"></label></div>
+      </div>
+      <div class="field"><label><span data-en="Why people will love it">卖点</span><small data-en="3 to 6 works best">3 到 6 个最好</small></label>
+        <div class="rep" data-rep="features" data-max="6" data-fields="title:卖点|Feature;text:一句话解释|One-line explanation"></div></div>
+      <div class="field"><label data-en="Price">价格</label>
+        <div class="chips" data-group="pricing">
+          <button class="chip" data-value="free" aria-pressed="false" data-en="Free">免费</button>
+          <button class="chip" data-value="once" aria-pressed="false" data-en="One-time payment">一次买断</button>
+          <button class="chip" data-value="subscription" aria-pressed="false" data-en="Subscription">订阅</button>
+          <button class="chip" data-value="none" aria-pressed="false" data-en="Don't show prices">先不写价格</button>
+        </div>
+        <input type="text" name="price_detail" class="field" placeholder="比如：免费版 ¥0；专业版 ¥38 一次买断" data-en-placeholder="e.g. Free plan $0; Pro $9/month"></div>
+      <div class="row2">
+        <div class="field"><label data-en="Main button text">主按钮写什么</label><input type="text" name="cta_label" placeholder="免费下载" data-en-placeholder="Get it free"></div>
+        <div class="field"><label data-en="Where the button goes">按钮跳到哪里</label><input type="url" name="cta_href" placeholder="下载地址或报名链接" data-en-placeholder="Download or sign-up link"></div>
+      </div>
+      <div class="field"><label><span data-en="Common questions">常见问题</span><small data-en="optional">可选</small></label>
+        <div class="rep" data-rep="faq" data-max="6" data-fields="q:问题|Question;a:回答|Answer"></div></div>
+      <div class="field"><label data-en="Contact email">联系邮箱</label><input type="email" name="email" placeholder="hi@example.com"></div>
+    </div>
+
+    <!-- other -->
+    <div data-for="app">
+      <div class="field"><label data-en="Tool name">工具名字</label><input type="text" name="name" placeholder="专注岛" data-en-placeholder="Focus Island"></div>
+      <div class="field"><label><span data-en="What it must do">它要能做的几件事</span><small data-en="up to 6">最多 6 件</small></label>
+        <div class="rep" data-rep="features" data-max="6" data-fields="title:一件事|One thing;text:具体怎么做（可选）|How, in a few words (optional)"></div></div>
+      <div class="field"><label data-en="Who uses it">谁会用</label><input type="text" name="audience" placeholder="我自己 / 备考的学生 / 我们部门" data-en-placeholder="Just me / students / my team"></div>
+      <div class="field"><label data-en="Should it remember things?">要不要记住数据</label>
+        <div class="chips" data-group="save">
+          <button class="chip" data-value="local" aria-pressed="false" data-en="Yes, on this device">记住，存在这台设备上</button>
+          <button class="chip" data-value="none" aria-pressed="false" data-en="No, start fresh each time">不用，每次打开都是新的</button>
+        </div></div>
+    </div>
+
+    <div data-for="other">
+      <div class="field"><label data-en="Which parts should the page have?">页面要哪些部分</label>
+        <div class="chips" data-group="parts" data-multi="1">
+          <button class="chip" data-value="intro" aria-pressed="false" data-en="Intro">开头介绍</button>
+          <button class="chip" data-value="features" aria-pressed="false" data-en="Highlights">特色亮点</button>
+          <button class="chip" data-value="gallery" aria-pressed="false" data-en="Photos">图片展示</button>
+          <button class="chip" data-value="steps" aria-pressed="false" data-en="How it works">流程步骤</button>
+          <button class="chip" data-value="pricing" aria-pressed="false" data-en="Prices">价格</button>
+          <button class="chip" data-value="faq" aria-pressed="false" data-en="FAQ">常见问题</button>
+          <button class="chip" data-value="contact" aria-pressed="false" data-en="Contact">联系方式</button>
+        </div></div>
+      <div class="field"><label data-en="Name">名字</label><input type="text" name="name" placeholder="小麦烘焙" data-en-placeholder="Wheat Bakery"></div>
+      <div class="field"><label data-en="Anything the page must say">一定要写上的内容</label><textarea name="must_say" placeholder="营业时间、地址、招牌产品……" data-en-placeholder="Opening hours, address, best sellers..."></textarea></div>
+      <div class="field"><label><span data-en="Photos">图片</span><small data-en="optional">可选</small></label><label class="upload"><img alt=""><span data-en="Choose an image">点这里选图片</span><input type="file" accept="image/*" name="photo"></label></div>
+      <div class="field"><label data-en="Contact email">联系邮箱</label><input type="email" name="email" placeholder="hi@example.com"></div>
+    </div>
+
+    <div class="field"><label data-en="Page language">页面语言</label>
+      <div class="chips" data-group="lang">
+        <button class="chip" data-value="zh" aria-pressed="true">中文</button>
+        <button class="chip" data-value="en" aria-pressed="false">English</button>
+      </div></div>
+    <div class="field"><label><span data-en="Anything else?">还有什么想说的</span><small data-en="optional">可选</small></label><textarea name="notes" placeholder="想参考的网站、想要的感觉、不想要的东西……" data-en-placeholder="Sites you like, the feeling you want, things to avoid..."></textarea></div>
+  </div>
+
+  <!-- ===================== sent ===================== -->
+  <div id="demoEnd" class="done hidden">
+    <h1 data-en="This is the demo">这里是演示</h1>
+    <p class="lede" data-en="With Shoufa installed, this button hands your answers to your AI, which builds the page or tool and opens a preview. Install it and tell your AI what you want to make.">装上首发以后，点这个按钮，AI 就会拿到你的选择，做出页面或工具并打开预览。装好后跟 AI 说一句想做什么就行。</p>
+    <p style="margin-top:24px"><code style="display:inline-block;padding:10px 14px;border:1px solid var(--line);border-radius:8px;background:var(--surface);font-size:14px">npx skills add kehaoran-ai/shoufa</code></p>
+    <p style="margin-top:16px"><a class="btn" href="/" data-en="Back to the Shoufa site">回到首发首页</a></p>
+  </div>
+  <div id="sent" class="done hidden">
+    <div class="spin"></div>
+    <h1 data-en="Got it. Building your page...">收到了，正在做你的页面</h1>
+    <p class="lede" data-en="A preview will open in a new tab in a moment. You can close this one.">马上会在新标签页打开预览，这一页可以关掉了。</p>
+  </div>
+</div>
+
+<div class="bar" id="bar">
+  <div class="in">
+    <span class="say" id="say"></span>
+    <span class="grow"></span>
+    <button class="btn hidden" id="back" data-en="Back">上一步</button>
+    <button class="btn primary" id="next" data-en="Use this look, next">就这个风格，下一步</button>
+    <button class="btn hidden" id="more" disabled data-en="Add details for a better result">继续补充，效果更好</button>
+    <button class="btn primary hidden" id="go" disabled data-en="Build it now">直接生成</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  // On the demo site the form has no AI behind it: samples are pre-built files and the last button explains how to install.
+  var STATIC = !!window.SHOUFA_STATIC;
+  var qlang = new URLSearchParams(location.search).get("lang");
+  var EN = qlang ? qlang === "en" : !/^zh/i.test(navigator.language || "");
+  if (EN) {
+    document.documentElement.lang = "en";
+    document.title = "Shoufa · Make your first product";
+    document.querySelectorAll("[data-en]").forEach(function (el) { el.textContent = el.dataset.en; });
+    document.querySelectorAll("[data-en-placeholder]").forEach(function (el) { el.placeholder = el.dataset.enPlaceholder; });
+  }
+  if (EN) document.querySelectorAll("img[data-look]").forEach(function (im) { im.src = "/forms/thumbs/" + im.dataset.look + "-en.jpg"; });
+  var NAMES = { mono: EN ? "Mono" : "素白", blueprint: EN ? "Blueprint" : "线稿", soft: EN ? "Soft" : "柔和" };
+  var state = { style: "mono", type: "", accent: "", pricing: "", lang: EN ? "en" : "zh", parts: [], sample: "landing" };
+  var step = "A";
+  var frame = document.getElementById("sample"), vlabel = document.getElementById("vlabel");
+  var go = document.getElementById("go"), more = document.getElementById("more"), next = document.getElementById("next"),
+      back = document.getElementById("back"), say = document.getElementById("say");
+
+  // ---- the live sample page on the right
+  function paintAccent() {
+    if (!STATIC || !state.accent) return;
+    try { frame.contentDocument.documentElement.style.setProperty("--nt-accent", state.accent); } catch (e) {}
+  }
+  frame.addEventListener("load", function () { paintAccent(); viewer.classList.remove("loading"); });
+  // Show the sample at a real desktop width, scaled down to fit, so it looks like the page people will get.
+  var viewer = document.querySelector(".viewer"), vbox = document.getElementById("vbox"), curKind = "landing";
+  function fit() {
+    var w = vbox.clientWidth, h = vbox.clientHeight, k = w >= 480 && curKind !== "app" ? w / 1280 : 1;
+    frame.style.width = (w / k) + "px"; frame.style.height = (h / k) + "px";
+    frame.style.transform = k === 1 ? "" : "scale(" + k + ")";
+  }
+  window.addEventListener("resize", fit);
+  var timer;
+  function showSample() {
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      var kind = step === "B" && state.type ? ({ personal: "personal", app: "app" }[state.type] || "landing") : state.sample;
+      var q = "?lang=" + (EN ? "en" : "zh") + (state.accent ? "&accent=" + state.accent.replace("#", "") : "");
+      curKind = kind; fit();
+      var next = STATIC ? "/samples/" + kind + "-" + (EN ? "en" : "zh") + "-" + state.style + ".html" : "/sample/" + kind + "/" + state.style + q;
+      if (STATIC && frame.getAttribute("src") === next) paintAccent();
+      if (frame.getAttribute("src") !== next) { viewer.classList.add("loading"); frame.src = next; }
+      vlabel.textContent = NAMES[state.style] + " · " + ({ personal: EN ? "personal homepage" : "个人主页示例", app: EN ? "a working tool, try it" : "小工具示例，可以点" }[kind] || (EN ? "product page" : "产品落地页示例"));
+    }, 60);
+  }
+
+  // ---- choice groups
+  document.querySelectorAll("[data-group]").forEach(function (g) {
+    var multi = g.dataset.multi;
+    g.addEventListener("click", function (ev) {
+      var b = ev.target.closest("button"); if (!b) return;
+      if (multi) {
+        b.setAttribute("aria-pressed", b.getAttribute("aria-pressed") === "true" ? "false" : "true");
+        state[g.dataset.group] = [].slice.call(g.querySelectorAll('[aria-pressed="true"]')).map(function (x) { return x.dataset.value; });
+      } else {
+        g.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+        state[g.dataset.group] = b.dataset.value;
+      }
+      var grp = g.dataset.group;
+      if (grp === "type") {
+        var box = document.getElementById("otherBox"), ta = document.getElementById("otherDesc");
+        box.classList.toggle("hidden", state.type !== "other" && state.type !== "app");
+        ta.placeholder = state.type === "app" ? (EN ? "e.g. a timer that counts 25 minutes of focus and keeps a log of my rounds" : "比如：一个番茄钟，专注 25 分钟提醒我休息，能看到今天专注了几轮") : (EN ? ta.dataset.enPlaceholder : ta.dataset.zhPlaceholder);
+      }
+      if (grp === "style" || grp === "type") showSample();
+      update();
+    });
+  });
+  if (EN) document.querySelectorAll('[data-group="lang"] button').forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.value === "en" ? "true" : "false"); });
+  document.getElementById("sampleType").addEventListener("click", function (ev) {
+    var b = ev.target.closest("button"); if (!b) return;
+    this.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+    state.sample = b.dataset.value; showSample();
+  });
+
+  var sw = document.getElementById("swatches");
+  function pickColor(v) {
+    state.accent = v;
+    sw.querySelectorAll(".swatch").forEach(function (x) { x.setAttribute("aria-pressed", x.dataset.value === v ? "true" : "false"); });
+    showSample(); update();
+  }
+  sw.addEventListener("click", function (ev) { var b = ev.target.closest(".swatch"); if (b) pickColor(b.dataset.value); });
+  document.getElementById("customColor").addEventListener("change", function (ev) { pickColor(ev.target.value); });
+
+  // ---- repeatable rows
+  document.querySelectorAll("[data-rep]").forEach(function (box) {
+    var fields = box.dataset.fields.split(";").map(function (f) { var kv = f.split(":"); var lab = kv[1].split("|"); return { key: kv[0], label: EN ? lab[1] : lab[0] }; });
+    var max = +box.dataset.max;
+    var add = document.createElement("button"); add.className = "add"; add.type = "button";
+    add.textContent = EN ? "+ Add one" : "+ 再加一个";
+    function row() {
+      var it = document.createElement("div"); it.className = "item";
+      fields.forEach(function (f) { var i = document.createElement("input"); i.type = "text"; i.placeholder = f.label; i.dataset.key = f.key; it.appendChild(i); });
+      var rm = document.createElement("button"); rm.className = "rm"; rm.type = "button"; rm.textContent = "×"; rm.setAttribute("aria-label", "remove");
+      rm.onclick = function () { it.remove(); add.classList.remove("hidden"); };
+      it.appendChild(rm); box.insertBefore(it, add);
+      if (box.querySelectorAll(".item").length >= max) add.classList.add("hidden");
+    }
+    add.onclick = row; box.appendChild(add); row();
+  });
+
+  // ---- image uploads -> shrunk data URLs
+  var images = {};
+  document.querySelectorAll('.upload input[type=file]').forEach(function (inp) {
+    inp.addEventListener("change", function () {
+      var f = inp.files[0]; if (!f) return;
+      var r = new FileReader();
+      r.onload = function () {
+        var img = new Image();
+        img.onload = function () {
+          var max = 1600, w = img.width, h = img.height, k = Math.min(1, max / Math.max(w, h));
+          var c = document.createElement("canvas"); c.width = Math.round(w * k); c.height = Math.round(h * k);
+          c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+          var url = f.type === "image/png" ? c.toDataURL("image/png") : c.toDataURL("image/jpeg", 0.88);
+          images[inp.name] = url;
+          inp.parentNode.querySelector("img").src = url;
+          inp.parentNode.querySelector("span").textContent = f.name;
+        };
+        img.src = r.result;
+      };
+      r.readAsDataURL(f);
+    });
+  });
+
+  // ---- steps: A look, B what + colour, C optional details
+  function ready() { return state.style && state.type && state.accent && ((state.type !== "other" && state.type !== "app") || document.getElementById("otherDesc").value.trim()); }
+  function update() {
+    var ok = ready();
+    go.disabled = !ok; more.disabled = !ok;
+    if (step === "A") say.textContent = (EN ? "Look: " : "当前风格：") + NAMES[state.style] + (EN ? ". You can still switch in the preview." : "。后面预览时还能再换。");
+    if (step === "B") say.textContent = ok ? (EN ? "Ready. Build now, or add details first." : "可以了，直接生成，或者先补充一些内容。") : (EN ? "Pick what you're making and a colour" : "选好做什么和主色就能继续");
+    if (step === "C") say.textContent = EN ? "All optional. Skip anything." : "都是可选的，想跳过就跳过";
+  }
+  document.getElementById("otherDesc").addEventListener("input", update);
+
+  function showStep(n) {
+    step = n;
+    document.getElementById("split").classList.toggle("hidden", n === "C");
+    document.getElementById("stepA").classList.toggle("hidden", n !== "A");
+    document.getElementById("stepB").classList.toggle("hidden", n !== "B");
+    document.getElementById("stepC").classList.toggle("hidden", n !== "C");
+    document.getElementById("app").classList.toggle("wide", n !== "C");
+    document.body.classList.toggle("wide", n !== "C");
+    document.getElementById("p1").className = n === "A" ? "on" : "past";
+    document.getElementById("p2").className = n === "A" ? "" : "on";
+    back.classList.toggle("hidden", n === "A");
+    next.classList.toggle("hidden", n !== "A");
+    more.classList.toggle("hidden", n !== "B");
+    go.classList.toggle("hidden", n === "A");
+    go.textContent = n === "C" ? (EN ? "Build my page" : "生成我的页面") : (EN ? "Build it now" : "直接生成");
+    if (n === "C") document.querySelectorAll("[data-for]").forEach(function (el) { el.classList.toggle("hidden", el.dataset.for !== state.type); });
+    window.scrollTo(0, 0);
+    fit(); showSample(); update();
+  }
+  next.onclick = function () { showStep("B"); };
+  more.onclick = function () { showStep("C"); };
+  back.onclick = function () { showStep(step === "C" ? "B" : "A"); };
+
+  function collect() {
+    var fields = {};
+    var scope = step === "C" ? document.querySelector('[data-for="' + state.type + '"]') : null;
+    if (scope) {
+      scope.querySelectorAll("input[name], textarea[name]").forEach(function (el) { if (el.type !== "file" && el.value.trim()) fields[el.name] = el.value.trim(); });
+      scope.querySelectorAll("[data-rep]").forEach(function (box) {
+        var list = [];
+        box.querySelectorAll(".item").forEach(function (it) {
+          var o = {}, any = false;
+          it.querySelectorAll("input").forEach(function (i) { if (i.value.trim()) { o[i.dataset.key] = i.value.trim(); any = true; } });
+          if (any) list.push(o);
+        });
+        if (list.length) fields[box.dataset.rep] = list;
+      });
+      scope.querySelectorAll('.upload input[type=file]').forEach(function (i) { if (images[i.name]) fields[i.name] = images[i.name]; });
+    }
+    var notes = document.querySelector('textarea[name="notes"]');
+    if (step === "C" && notes.value.trim()) fields.notes = notes.value.trim();
+    return {
+      type: state.type, other_description: document.getElementById("otherDesc").value.trim(),
+      style: state.style, accent: state.accent, language: state.lang,
+      pricing: state.pricing || "", parts: state.parts, save: state.save || "",
+      detail_level: step === "C" ? "detailed" : "basic", fields: fields
+    };
+  }
+
+  go.onclick = function () {
+    if (!ready()) return;
+    if (STATIC) {
+      ["split", "stepC", "bar"].forEach(function (id) { document.getElementById(id).classList.add("hidden"); });
+      document.getElementById("app").classList.remove("wide");
+      document.getElementById("demoEnd").classList.remove("hidden");
+      window.scrollTo(0, 0);
+      return;
+    }
+    go.disabled = true;
+    fetch("/api/answer/start", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(collect()) })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); })
+      .then(function () {
+        ["split", "stepC", "bar"].forEach(function (id) { document.getElementById(id).classList.add("hidden"); });
+        document.getElementById("app").classList.remove("wide");
+        document.getElementById("sent").classList.remove("hidden");
+      })
+      .catch(function () { go.disabled = false; alert(EN ? "Could not send. Is the AI still running? Try again." : "没发出去。AI 那边还在运行吗？再点一次试试。"); });
+  };
+
+  // ?demo=1 jumps to a filled-in second step, used only for screenshots.
+  if (/[?&]demo=2/.test(location.search)) { state.type = "personal"; document.querySelector('[data-group="type"] [data-value="personal"]').setAttribute("aria-pressed", "true"); pickColor("#d9773b"); showStep("B"); }
+  fit(); showSample(); update();
+})();
+</script>
+</body>
+</html>

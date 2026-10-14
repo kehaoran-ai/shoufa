@@ -1,0 +1,19 @@
+{
+  "name": "shoufa",
+  "owner": {
+    "name": "Ke Haoran",
+    "url": "https://github.com/kehaoran-ai"
+  },
+  "metadata": {
+    "description": "Shoufa (首发): your first product, live, without code."
+  },
+  "plugins": [
+    {
+      "name": "shoufa",
+      "source": "./",
+      "description": "Guided form, three shadcn-based looks, pages or working tools, live preview, free Cloudflare hosting.",
+      "version": "0.1.0",
+      "license": "MIT"
+    }
+  ]
+}

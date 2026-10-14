@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>首发 · 预览你的页面</title>
+<link rel="stylesheet" href="/forms/forms.css">
+<style>
+html,body{height:100%}
+body{display:flex;flex-direction:column}
+.tool{display:flex;flex-wrap:wrap;align-items:center;gap:14px 18px;padding:14px 20px;background:var(--surface);border-bottom:1px solid var(--line)}
+.tool h1{font-size:18px}
+.tool .group{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-2)}
+.tool .chip{padding:6px 12px;font-size:13px}
+.tool .swatch{width:26px;height:26px;border-width:2px}
+.stage{flex:1;min-height:0;display:flex;justify-content:center;background:var(--sunken);padding:18px 18px 0}
+.frame{width:100%;height:100%;border:1px solid var(--line);border-bottom:0;border-radius:14px 14px 0 0;background:#fff;box-shadow:0 10px 30px -18px rgba(0,0,0,.35);transition:width .25s ease}
+.stage.phone .frame{width:390px}
+.ask{display:none;padding:16px 20px;background:var(--surface);border-top:1px solid var(--line)}
+.ask.open{display:block}
+.ask .in{max-width:880px;margin:0 auto;display:flex;gap:12px;align-items:flex-end}
+.ask textarea{min-height:64px}
+.foot{padding:14px 20px;background:var(--surface);border-top:1px solid var(--line)}
+.foot .in{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:12px}
+@media (max-width:700px){.tool .group.dev{display:none}.foot .say{display:none}.foot .btn{flex:1;padding:0 10px}}
+</style>
+</head>
+<body>
+<div class="tool">
+  <div class="logo"><i>首</i></div>
+  <h1 data-en="This is your page">这是你的页面</h1>
+  <span class="grow"></span>
+  <div class="group" id="styles"><span data-en="Style">风格</span>
+    <button class="chip" data-value="mono" data-en="Mono">素白</button>
+    <button class="chip" data-value="blueprint" data-en="Blueprint">线稿</button>
+    <button class="chip" data-value="soft" data-en="Soft">柔和</button>
+  </div>
+  <div class="group" id="colors"><span data-en="Colour">主色</span>
+    <button class="swatch" data-value="#2e4bff" style="background:#2e4bff" aria-label="blue"></button>
+    <button class="swatch" data-value="#e4572e" style="background:#e4572e" aria-label="orange"></button>
+    <button class="swatch" data-value="#0f8a5f" style="background:#0f8a5f" aria-label="green"></button>
+    <button class="swatch" data-value="#7c3aed" style="background:#7c3aed" aria-label="purple"></button>
+    <button class="swatch" data-value="#db2777" style="background:#db2777" aria-label="pink"></button>
+    <button class="swatch" data-value="#141518" style="background:#141518" aria-label="black"></button>
+  </div>
+  <div class="group dev" id="device"><span data-en="View">看看</span>
+    <button class="chip" data-value="desk" aria-pressed="true" data-en="Computer">电脑</button>
+    <button class="chip" data-value="phone" aria-pressed="false" data-en="Phone">手机</button>
+  </div>
+</div>
+<div class="stage" id="stage"><iframe class="frame" id="frame" title="preview"></iframe></div>
+<div class="ask" id="ask"><div class="in">
+  <div class="grow"><label class="say" style="display:block;margin-bottom:6px;font-weight:600" data-en="What should change? Be as specific as you like.">想改哪里？说得越具体越好</label>
+  <textarea id="feedback" placeholder="比如：标题换成「……」；作品放到最前面；手机上按钮太小" data-en-placeholder="e.g. change the headline to '...'; move my work to the top; buttons too small on phones"></textarea></div>
+  <button class="btn primary" id="sendFix" data-en="Send">发给 AI 改</button>
+</div></div>
+<div class="foot" id="foot"><div class="in">
+  <span class="say" id="say" data-en="Switch style and colour above; changes show instantly.">上面可以随时换风格和颜色，马上就能看到效果。</span>
+  <span class="grow"></span>
+  <button class="btn" id="keep" data-en="Keep it on my computer">先存在电脑上</button>
+  <button class="btn" id="change" data-en="I want changes">我还想改</button>
+  <button class="btn primary" id="ship" data-en="Looks good, put it online">就它了，帮我上线</button>
+</div></div>
+<div class="done hidden" id="sent"><div class="spin"></div><h1 id="sentMsg"></h1><p class="lede" id="sentSub"></p></div>
+<script>
+(function () {
+  var EN = !/^zh/i.test(navigator.language || "");
+  if (EN) {
+    document.documentElement.lang = "en"; document.title = "Shoufa · Preview";
+    document.querySelectorAll("[data-en]").forEach(function (el) { el.textContent = el.dataset.en; });
+    document.querySelectorAll("[data-en-placeholder]").forEach(function (el) { el.placeholder = el.dataset.enPlaceholder; });
+  }
+  var frame = document.getElementById("frame");
+  var state = { style: "", accent: "" };
+  function load() {
+    var url = state.style ? "/preview/" + state.style + (state.accent ? "?accent=" + encodeURIComponent(state.accent.replace("#", "")) : "") : "/site/index.html";
+    frame.src = url + (url.indexOf("?") > -1 ? "&" : "?") + "t=" + Date.now();
+  }
+  fetch("/api/meta").then(function (r) { return r.json(); }).then(function (m) {
+    state.style = m.system || ""; state.accent = m.accent || "";
+    mark(); load();
+  }).catch(load);
+  function mark() {
+    document.querySelectorAll("#styles .chip").forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.value === state.style ? "true" : "false"); });
+    document.querySelectorAll("#colors .swatch").forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.value === state.accent ? "true" : "false"); });
+  }
+  document.getElementById("styles").addEventListener("click", function (e) { var b = e.target.closest(".chip"); if (!b) return; state.style = b.dataset.value; mark(); load(); });
+  document.getElementById("colors").addEventListener("click", function (e) { var b = e.target.closest(".swatch"); if (!b) return; state.accent = b.dataset.value; mark(); load(); });
+  document.getElementById("device").addEventListener("click", function (e) {
+    var b = e.target.closest(".chip"); if (!b) return;
+    document.querySelectorAll("#device .chip").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+    document.getElementById("stage").classList.toggle("phone", b.dataset.value === "phone");
+  });
+  document.getElementById("change").onclick = function () { document.getElementById("ask").classList.toggle("open"); document.getElementById("feedback").focus(); };
+  function send(action, extra) {
+    var body = { action: action, style: state.style, accent: state.accent };
+    for (var k in extra) body[k] = extra[k];
+    fetch("/api/answer/preview", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); done(action); })
+      .catch(function () { alert(EN ? "Could not send. Is the AI still running?" : "没发出去。AI 那边还在运行吗？"); });
+  }
+  function done(action) {
+    ["stage", "foot", "ask"].forEach(function (id) { document.getElementById(id).classList.add("hidden"); });
+    document.querySelector(".tool").classList.add("hidden");
+    document.getElementById("sent").classList.remove("hidden");
+    var t = {
+      ship: [EN ? "Great. Let's put it online." : "好，我们把它放到网上", EN ? "A step-by-step guide opens in a new tab." : "马上在新标签页打开上线指引，跟着走就行。"],
+      revise: [EN ? "Got it. Making the changes..." : "收到，正在按你说的改", EN ? "The new version will open in a new tab." : "改好后会在新标签页打开新版本。"],
+      keep: [EN ? "Saved on your computer." : "已经存在你电脑上了", EN ? "The AI will tell you where the file is." : "AI 会告诉你文件在哪。"]
+    }[action];
+    document.getElementById("sentMsg").textContent = t[0]; document.getElementById("sentSub").textContent = t[1];
+    if (action === "keep") document.querySelector("#sent .spin").classList.add("hidden");
+  }
+  document.getElementById("sendFix").onclick = function () {
+    var f = document.getElementById("feedback").value.trim();
+    if (!f) { document.getElementById("feedback").focus(); return; }
+    send("revise", { feedback: f });
+  };
+  document.getElementById("ship").onclick = function () { send("ship", {}); };
+  document.getElementById("keep").onclick = function () { send("keep", {}); };
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+/* Look: blueprint (线稿). Drawn like a plan on grid paper: a light grey page,
+   1.5px ink lines around cards, small corners, a hard 2px shadow, a black
+   button with a pressable bottom edge, a grid behind the hero, Montserrat.
+   The picked colour marks highlights and links only. */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400..800&display=swap");
+:root {
+  --background: #f2f2f0;
+  --foreground: #232323;
+  --card: #ffffff;
+  --primary: #1c1c1c;
+  --primary-foreground: #ffffff;
+  --secondary: #e4e4e1;
+  --muted: #ebebe8;
+  --muted-foreground: #626262;
+  --border: #cbcbc7;
+  --input: #cbcbc7;
+  --radius: 0.375rem;
+  --font-sans: "Montserrat", ui-sans-serif, -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --shadow-xs: 0 2px 0 0 rgb(0 0 0 / .12);
+  --shadow-sm: 0 2px 0 0 rgb(0 0 0 / .12), 0 3px 6px -2px rgb(0 0 0 / .1);
+  --nt-accent: #2563eb;
+  --nt-radius: var(--radius); --nt-radius-lg: calc(var(--radius) * 2);
+}
+html { overflow-x: clip; }
+.nt-hero, .nt-profile { position: relative; isolation: isolate; }
+.nt-hero::before, .nt-profile::before {
+  content: ""; position: absolute; z-index: -1; inset: 0 calc(50% - 50vw);
+  background-color: var(--card);
+  background-image: linear-gradient(#d8d8d4 1px, transparent 1px), linear-gradient(90deg, #d8d8d4 1px, transparent 1px), linear-gradient(#ebebe8 1px, transparent 1px), linear-gradient(90deg, #ebebe8 1px, transparent 1px);
+  background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px; background-position: -1px -1px;
+  border-bottom: 1.5px solid var(--foreground);
+}
+.nt-topbar { border-bottom: 1.5px solid var(--foreground); }
+.nt-hero h1 { font-weight: 800; }
+.nt-btn { border-radius: var(--radius); font-weight: 600; }
+.nt-btn--primary {
+  border: 1.5px solid #000;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .22), 0 3px 0 0 #000, 0 5px 10px -4px rgb(0 0 0 / .35);
+  margin-bottom: 3px; transition: transform .08s ease, box-shadow .08s ease;
+}
+.nt-btn--primary:active { transform: translateY(3px); box-shadow: inset 0 1px 0 rgb(255 255 255 / .22), 0 0 0 0 #000; }
+.nt-btn:not(.nt-btn--primary) { border: 1.5px solid var(--foreground); }
+.nt-card, .nt-work-thumb, .nt-portrait { border: 1.5px solid var(--foreground); }
+.nt-card--featured { border-color: var(--nt-accent); box-shadow: 0 2px 0 0 var(--nt-accent); }
+.nt-tag { border: 1.5px solid var(--foreground); border-radius: var(--radius); background: var(--card); font-weight: 600; }
+.nt-brand::before { border-radius: 2px; }
+.nt-figure > .nt-frame { border: 1.5px solid var(--foreground); background: var(--card); box-shadow: var(--shadow-xs); }
+.nt-figure > .nt-frame::before { --c: var(--nt-accent); }
+.nt-metrics { border-top: 1.5px solid var(--foreground); border-bottom: 1.5px solid var(--foreground); }
+.nt-hero .nt-tag, .nt-section-head .nt-tag { font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+.nt-cta { border: 1.5px solid var(--foreground); box-shadow: var(--shadow-xs); }

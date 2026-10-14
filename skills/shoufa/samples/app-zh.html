@@ -1,0 +1,159 @@
+<div class="sf-app">
+  <header class="sf-bar">
+    <a class="nt-brand" href="#">专注岛</a>
+    <span class="nt-grow"></span>
+    <div class="sf-seg" role="tablist" aria-label="视图">
+      <button role="tab" aria-selected="true" data-view="timer">计时</button>
+      <button role="tab" aria-selected="false" data-view="stats">统计</button>
+    </div>
+  </header>
+  <main class="sf-main">
+    <section class="sf-view" id="v-timer">
+      <div class="nt-card sf-center" style="padding:28px 24px 32px">
+        <div class="sf-seg" id="modes">
+          <button aria-pressed="true" data-min="25" data-kind="focus">专注</button>
+          <button aria-pressed="false" data-min="5" data-kind="rest">短休息</button>
+          <button aria-pressed="false" data-min="15" data-kind="rest">长休息</button>
+        </div>
+        <div class="sf-ring" id="ring"><div><div class="sf-big" id="clock">25:00</div><div class="sf-hint" id="phase"></div></div></div>
+        <input class="sf-input" id="task" placeholder="这一轮要做什么？" style="max-width:340px;text-align:center" autocomplete="off">
+        <div class="nt-actions" style="margin:0;justify-content:center">
+          <button class="nt-btn nt-btn--primary nt-btn--lg" id="go">开始专注</button>
+          <button class="nt-btn nt-btn--lg" id="reset">重来</button>
+        </div>
+      </div>
+      <div class="nt-card">
+        <div class="sf-head"><b>今天</b><span class="sf-hint" id="sum"></span></div>
+        <ul class="sf-list" id="log"></ul>
+        <div class="sf-empty" id="empty" hidden>
+          <svg class="nt-line" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 34 V20"/><g class="is-accent"><circle cx="20" cy="14" r="8"/></g><path d="M10 34 H30"/></svg>
+          <b>今天还没有专注记录</b><span>点「开始专注」，完成一轮就会记在这里。</span>
+        </div>
+      </div>
+    </section>
+    <section class="sf-view" id="v-stats" hidden>
+      <div class="sf-stats">
+        <div class="sf-stat"><b id="st-r">0</b><span>今天完成</span></div>
+        <div class="sf-stat"><b id="st-m">0</b><span>本周专注分钟</span></div>
+        <div class="sf-stat"><b id="st-d">0</b><span>连续专注天数</span></div>
+      </div>
+      <div class="nt-card">
+        <div class="sf-head"><b>这一周</b><span class="sf-hint" id="wk"></span></div>
+        <div class="sf-bars" id="bars"></div>
+      </div>
+      <button class="nt-btn nt-btn--quiet" id="clear" style="justify-self:start">清空今天</button>
+    </section>
+  </main>
+  <div class="sf-toast" id="toast" role="status"></div>
+  <dialog class="sf-dialog nt-card" id="ask">
+    <h2>清空今天的专注记录？</h2><p class="sf-hint" style="margin:0">今天完成的轮次都会删掉，删了找不回来。</p>
+    <div class="sf-actions"><button class="nt-btn" id="no">算了</button><button class="nt-btn nt-btn--primary" id="yes">清空</button></div>
+  </dialog>
+</div>
+<script>
+(function () {
+  var S = {"name": "专注岛", "views": "视图", "timer": "计时", "stats": "统计", "focus": "专注", "short": "短休息", "long": "长休息", "task_ph": "这一轮要做什么？", "start": "开始专注", "pause": "暂停", "resume": "继续", "reset": "重来", "today": "今天", "empty_b": "今天还没有专注记录", "empty_p": "点「开始专注」，完成一轮就会记在这里。", "week": "这一周", "s_rounds": "今天完成", "s_minutes": "本周专注分钟", "s_streak": "连续专注天数", "unit_round": "轮", "unit_min": "分钟", "unit_day": "天", "days": ["一", "二", "三", "四", "五", "六", "日"], "ready": "准备开始第 {n} 轮", "running": "第 {n} 轮专注中", "paused": "已暂停", "resting": "休息一下", "done_toast": "完成一轮，岛上多了一棵树", "rest_toast": "休息结束，再来一轮？", "untitled": "没写任务", "clear": "清空今天", "clear_q": "清空今天的专注记录？", "clear_p": "今天完成的轮次都会删掉，删了找不回来。", "cancel": "算了", "confirm": "清空", "cleared": "今天的记录清空了", "summary": "{r} 轮 · {m} 分钟", "demo": [["读完第三章", 25], ["整理错题本", 25], ["背 50 个单词", 25]]};
+  var KEY = "shoufa.focus-island.v1";
+  // The sample on the start form shows a few earlier rounds so the page is not empty. A real tool starts empty.
+  var DEMO = true;
+  var $ = function (id) { return document.getElementById(id); };
+  var store = load();
+  var mode = { min: 25, kind: "focus" }, endAt = 0, left = 25 * 60, timer = null;
+
+  function load() {
+    try { var d = JSON.parse(localStorage.getItem(KEY)); if (d && d.rounds) return d; } catch (e) {}
+    var d = { rounds: [] };
+    if (DEMO) {
+      var now = Date.now(), t0 = dayStart(now);
+      [2, 5, 1, 3, 4, 2].forEach(function (n, k) { for (var j = 0; j < n; j++) d.rounds.push({ at: t0 - (k + 1) * 864e5 + (9 + j) * 36e5, task: "", min: 25 }); });
+      S.demo.forEach(function (r, i) { d.rounds.push({ at: now - (3 - i) * 40 * 60000, task: r[0], min: r[1] }); });
+    }
+    return d;
+  }
+  function save() { if (DEMO) return; try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {} }
+  function fmt(s) { s = Math.max(0, Math.ceil(s)); return String(Math.floor(s / 60)).padStart(2, "0") + ":" + String(s % 60).padStart(2, "0"); }
+  function dayStart(t) { var d = new Date(t); d.setHours(0, 0, 0, 0); return d.getTime(); }
+  function today() { var t0 = dayStart(Date.now()); return store.rounds.filter(function (r) { return r.at >= t0; }); }
+  function toast(msg) { var t = $("toast"); t.textContent = msg; t.classList.add("is-on"); clearTimeout(toast.h); toast.h = setTimeout(function () { t.classList.remove("is-on"); }, 2400); }
+
+  function paint() {
+    var total = mode.min * 60;
+    $("clock").textContent = fmt(left);
+    $("ring").style.setProperty("--p", (1 - left / total).toFixed(4));
+    var n = today().length + 1;
+    $("phase").textContent = mode.kind === "rest" ? S.resting : timer ? S.running.replace("{n}", n) : (left < total ? S.paused : S.ready.replace("{n}", n));
+    $("go").textContent = timer ? S.pause : (left < total ? S.resume : S.start);
+    document.title = timer ? fmt(left) + " · " + S.name : S.name;
+  }
+  function list() {
+    var rs = today().slice().reverse(), ul = $("log");
+    ul.innerHTML = "";
+    rs.forEach(function (r) {
+      var li = document.createElement("li"); li.className = "sf-item";
+      var d = new Date(r.at), hm = String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0");
+      li.innerHTML = '<span class="sf-tick" aria-pressed="true" role="img"></span><div class="sf-item-main"><b></b><small></small></div><span class="sf-item-end"></span>';
+      li.querySelector("b").textContent = r.task || S.untitled;
+      li.querySelector("small").textContent = hm;
+      li.querySelector(".sf-item-end").textContent = r.min + " " + S.unit_min;
+      ul.appendChild(li);
+    });
+    $("empty").hidden = rs.length > 0;
+    var m = rs.reduce(function (a, r) { return a + r.min; }, 0);
+    $("sum").textContent = rs.length ? S.summary.replace("{r}", rs.length).replace("{m}", m) : "";
+  }
+  function stats() {
+    var t0 = dayStart(Date.now()), dow = (new Date().getDay() + 6) % 7, mon = t0 - dow * 864e5;
+    var mins = [0, 0, 0, 0, 0, 0, 0];
+    store.rounds.forEach(function (r) { var i = Math.floor((dayStart(r.at) - mon) / 864e5); if (i >= 0 && i < 7) mins[i] += r.min; });
+    var max = Math.max.apply(null, mins.concat([25]));
+    $("bars").innerHTML = mins.map(function (m, i) { return '<div class="' + (i === dow ? "is-accent" : "") + '"><i style="--v:' + (m / max).toFixed(3) + '"></i><span>' + S.days[i] + "</span></div>"; }).join("");
+    var week = mins.reduce(function (a, b) { return a + b; }, 0);
+    $("st-r").textContent = today().length; $("st-m").textContent = week; $("wk").textContent = week + " " + S.unit_min;
+    var streak = 0, d = t0;
+    while (store.rounds.some(function (r) { return dayStart(r.at) === d; })) { streak++; d -= 864e5; }
+    $("st-d").textContent = streak;
+  }
+  function tick() {
+    left = (endAt - Date.now()) / 1000;
+    if (left <= 0) { finish(); return; }
+    paint();
+  }
+  function finish() {
+    clearInterval(timer); timer = null;
+    if (mode.kind === "focus") {
+      store.rounds.push({ at: Date.now(), task: $("task").value.trim(), min: mode.min }); save();
+      toast(S.done_toast); $("task").value = "";
+      setMode(today().length % 4 === 0 ? 2 : 1);
+    } else { toast(S.rest_toast); setMode(0); }
+    list(); stats();
+  }
+  function setMode(i) {
+    var b = $("modes").querySelectorAll("button");
+    b.forEach(function (x, j) { x.setAttribute("aria-pressed", j === i ? "true" : "false"); });
+    clearInterval(timer); timer = null;
+    mode = { min: +b[i].dataset.min, kind: b[i].dataset.kind }; left = mode.min * 60; paint();
+  }
+  $("modes").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    setMode([].indexOf.call(this.querySelectorAll("button"), b));
+  });
+  $("go").onclick = function () {
+    if (timer) { clearInterval(timer); timer = null; left = (endAt - Date.now()) / 1000; paint(); return; }
+    endAt = Date.now() + left * 1000; timer = setInterval(tick, 250); paint();
+  };
+  $("reset").onclick = function () { clearInterval(timer); timer = null; left = mode.min * 60; paint(); };
+  $("clear").onclick = function () { if (!today().length) return; $("ask").showModal(); };
+  $("no").onclick = function () { $("ask").close(); };
+  $("yes").onclick = function () {
+    var t0 = dayStart(Date.now()); store.rounds = store.rounds.filter(function (r) { return r.at < t0; });
+    save(); $("ask").close(); list(); stats(); toast(S.cleared);
+  };
+  document.querySelector(".sf-bar .sf-seg").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    this.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-selected", x === b ? "true" : "false"); });
+    $("v-timer").hidden = b.dataset.view !== "timer"; $("v-stats").hidden = b.dataset.view !== "stats";
+    if (b.dataset.view === "stats") stats();
+  });
+  paint(); list(); stats();
+})();
+</script>

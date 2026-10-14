@@ -1,0 +1,54 @@
+/* Shoufa base: shadcn/ui (MIT, https://ui.shadcn.com).
+   Tokens use shadcn's names and default "neutral" values; each look (mono,
+   blueprint, soft) overrides some of them below this file. The second block
+   maps them onto Neatly's tokens, the third gives Neatly's components the
+   shadcn proportions: 36px controls, rounded-md buttons, rounded-xl cards,
+   hairline borders, shadow-xs. The visitor's chosen colour stays --nt-accent. */
+:root {
+  --background: #ffffff;
+  --foreground: #0a0a0a;
+  --card: #ffffff;
+  --primary: #171717;
+  --primary-foreground: #fafafa;
+  --secondary: #f5f5f5;
+  --muted: #f5f5f5;
+  --muted-foreground: #737373;
+  --border: #e5e5e5;
+  --input: #e5e5e5;
+  --radius: 0.625rem;
+  --font-sans: "Geist", ui-sans-serif, -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / .05);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);
+}
+:root {
+  --nt-paper: var(--background);
+  --nt-surface: var(--card);
+  --nt-sunken: var(--muted);
+  --nt-line: var(--border);
+  --nt-line-strong: var(--input);
+  --nt-ink: var(--foreground);
+  --nt-ink-2: color-mix(in oklab, var(--foreground) 55%, var(--muted-foreground));
+  --nt-ink-3: var(--muted-foreground);
+  --nt-on-ink: var(--primary-foreground);
+  --nt-ink-hover: color-mix(in oklab, var(--primary) 90%, var(--background));
+  --nt-hover: var(--secondary);
+  --nt-backdrop: var(--secondary);
+  --nt-sans: var(--font-sans);
+  --nt-radius-sm: calc(var(--radius) - 2px);
+  --nt-radius: calc(var(--radius) + 4px);
+  --nt-radius-lg: calc(var(--radius) + 8px);
+  --nt-shadow: var(--shadow-xs);
+  --nt-shadow-lift: var(--shadow-sm);
+}
+h1, h2, h3, .nt-display { letter-spacing: -0.025em; }
+.nt-hero h1 { font-weight: 700; }
+.nt-btn { height: 36px; padding: 0 16px; font-weight: 500; border-color: var(--input); background: var(--background); box-shadow: var(--shadow-xs); }
+.nt-btn:hover { background: var(--secondary); }
+.nt-btn--lg { height: 40px; padding: 0 24px; font-size: 14px; }
+.nt-btn--sm { height: 32px; padding: 0 12px; }
+.nt-btn--primary { background: var(--primary); border-color: var(--primary); color: var(--primary-foreground); }
+.nt-btn--primary:hover { background: var(--nt-ink-hover); }
+.nt-tag { height: 22px; padding: 0 8px; border-radius: calc(var(--radius) - 4px); border: 1px solid var(--border); background: var(--background); color: var(--foreground); font-weight: 500; }
+.nt-tag--accent { border-color: var(--nt-accent-line); }
+.nt-card { border-color: var(--border); box-shadow: var(--shadow-sm); }
+.nt-topbar { background: color-mix(in oklab, var(--background) 92%, transparent); backdrop-filter: blur(8px); }

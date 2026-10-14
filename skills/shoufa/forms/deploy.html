@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>首发 · 把页面放到网上</title>
+<link rel="stylesheet" href="/forms/forms.css">
+<style>
+.steps{margin-top:32px;display:grid;gap:14px}
+.st{display:grid;grid-template-columns:28px 1fr;gap:16px;padding:20px;border:1px solid var(--line);border-radius:14px;background:var(--surface);box-shadow:var(--shadow-xs)}
+.st .n{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;border:1px solid var(--line-strong);background:var(--surface);font-size:13px;font-weight:500;color:var(--ink-2)}
+.st.now{border-color:var(--ink);box-shadow:var(--shadow-sm)}
+.st.now .n{border-color:var(--ink);background:var(--ink);color:#fff}
+.st.ok .n{border-color:var(--ink);background:var(--ink);color:#fff;font-size:0}
+.st.ok .n::after{content:"";width:16px;height:16px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4.5 10.5l3.5 3.5 7.5-7.5' fill='none' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat}
+.st h2{margin:3px 0 4px;font-size:15.5px;font-weight:600}
+.st p{margin:0;color:var(--ink-2);font-size:14px}
+.st .act{margin-top:14px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.name{display:flex;align-items:center;gap:0;max-width:440px;border:1px solid var(--line);border-radius:8px;background:var(--surface);box-shadow:var(--shadow-xs);overflow:hidden}
+.name input{border:0;border-radius:0;box-shadow:none;flex:1;min-width:0}
+.name span{padding:0 14px;color:var(--ink-3);white-space:nowrap}
+.live{margin-top:10px;font-size:14px;color:var(--ink-2)}
+.live b{color:var(--ink);font-weight:600}
+.live i,.live em,#slugHint i{font-style:normal;color:var(--ink-3)}
+.result{margin-top:28px;padding:32px;border-radius:14px;background:var(--ink);color:#fff;text-align:center}
+.result h2{margin:0;font-size:22px}
+.result a{display:block;margin:14px 0 20px;color:#fff;font-size:clamp(20px,4vw,28px);font-weight:600;word-break:break-all}
+.result .btn{background:#fff;color:var(--ink);border-color:#fff}
+.err{margin-top:16px;padding:12px 14px;border:1px solid #fecaca;border-radius:10px;background:#fef2f2;color:#991b1b;font-size:14px}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top">
+    <div class="logo"><i>首</i><span data-en="Shoufa">首发</span></div>
+    <span class="grow"></span>
+    <div class="progress"><span class="past"><b>1</b></span><em></em><span class="past"><b>2</b></span><em></em><span class="past"><b>3</b></span><em></em><span class="on"><b>4</b><i data-en="Go live">上线</i></span></div>
+  </div>
+  <h1 data-en="Put your page on the internet">把你的页面放到网上</h1>
+  <p class="lede" data-en="Free, with Cloudflare. You only do steps 1 and 3; the AI does the rest.">用 Cloudflare，免费。你只需要做第 1 步和第 3 步，其他交给 AI。</p>
+
+  <div class="steps">
+    <div class="st now" id="s1"><div class="n">1</div><div>
+      <h2 data-en="Create a free Cloudflare account">注册一个免费的 Cloudflare 账号</h2>
+      <p data-en="Cloudflare hosts websites for free and makes them fast everywhere. Already have one? Skip this.">Cloudflare 能免费托管网站，全世界打开都快。已经有账号就跳过。</p>
+      <div class="act"><a class="btn" href="https://dash.cloudflare.com/sign-up" target="_blank" rel="noopener" data-en="Open the sign-up page">打开注册页</a></div>
+    </div></div>
+    <div class="st" id="s2"><div class="n">2</div><div>
+      <h2 data-en="Name your web address">给网址起个名字</h2>
+      <p data-en="Lowercase letters, numbers and dashes. You can add your own domain later.">小写字母、数字和横线。以后还可以换成自己的域名。</p>
+      <div class="act"><div class="name"><input type="text" id="slug" maxlength="40" placeholder="my-page"></div></div>
+      <p class="live" id="slugHint"></p>
+    </div></div>
+    <div class="st" id="s3"><div class="n">3</div><div>
+      <h2 data-en="Allow access when the browser asks">浏览器弹出授权页时，点「允许」</h2>
+      <p data-en="The AI will open a Cloudflare page that asks to let this computer publish for you. Log in and click Allow, then come back here.">AI 会打开 Cloudflare 的授权页，问能不能让这台电脑帮你发布。登录后点「Allow / 允许」，再回到这里。</p>
+    </div></div>
+    <div class="st" id="s4"><div class="n">4</div><div>
+      <h2 data-en="The AI uploads your page">AI 上传你的页面</h2>
+      <p data-en="Usually under a minute.">一般不到一分钟。</p>
+      <p class="live" id="live"></p>
+    </div></div>
+  </div>
+
+  <div class="err hidden" id="err"></div>
+  <div class="result hidden" id="result">
+    <h2 data-en="Your page is live">你的页面上线了</h2>
+    <a id="url" target="_blank" rel="noopener"></a>
+    <button class="btn" id="copy" data-en="Copy the link">复制链接</button>
+  </div>
+</div>
+
+<div class="bar" id="bar"><div class="in">
+  <span class="say" data-en="Signed up (or already have an account) and picked a name?">注册好了（或已有账号），名字也起好了？</span>
+  <span class="grow"></span>
+  <button class="btn primary" id="go" disabled data-en="Ready, go">好了，开始上线</button>
+</div></div>
+
+<script>
+(function () {
+  var EN = !/^zh/i.test(navigator.language || "");
+  if (EN) {
+    document.documentElement.lang = "en"; document.title = "Shoufa · Go live";
+    document.querySelectorAll("[data-en]").forEach(function (el) { el.textContent = el.dataset.en; });
+  }
+  var slug = document.getElementById("slug"), go = document.getElementById("go"), hint = document.getElementById("slugHint");
+  fetch("/api/meta").then(function (r) { return r.json(); }).then(function (m) { if (m.suggested_name && !slug.value) { slug.value = m.suggested_name; check(); } });
+  function clean(v) { return v.toLowerCase().replace(/[^a-z0-9-]/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "").slice(0, 40); }
+  function check() {
+    var v = clean(slug.value);
+    var ok = v.length >= 3;
+    hint.innerHTML = ok ? (EN ? "Your address will look like <b>https://" + v + ".<i>you</i>.workers.dev</b>" : "网址会长这样：<b>https://" + v + ".<i>你的账号名</i>.workers.dev</b>") : (EN ? "At least 3 characters." : "至少 3 个字符。");
+    go.disabled = !ok;
+    document.getElementById("s2").className = "st " + (ok ? "ok" : "now");
+  }
+  slug.addEventListener("input", check);
+  go.onclick = function () {
+    go.disabled = true;
+    fetch("/api/answer/deploy", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ project_name: clean(slug.value), ready: true }) })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); document.getElementById("s1").className = "st ok"; document.getElementById("s3").className = "st now"; document.getElementById("bar").classList.add("hidden"); poll(); })
+      .catch(function () { go.disabled = false; alert(EN ? "Could not send. Is the AI still running?" : "没发出去。AI 那边还在运行吗？"); });
+  };
+  function poll() {
+    fetch("/api/status").then(function (r) { return r.json(); }).then(function (s) {
+      if (s.current) document.getElementById("live").innerHTML = (EN ? "Now: " : "现在：") + "<b></b>", document.querySelector("#live b").textContent = s.current;
+      if (s.phase === "upload" || s.url) { document.getElementById("s3").className = "st ok"; document.getElementById("s4").className = "st now"; }
+      if (s.error) { var e = document.getElementById("err"); e.textContent = s.error; e.classList.remove("hidden"); }
+      if (s.done && s.url) {
+        document.getElementById("s4").className = "st ok";
+        var a = document.getElementById("url"); a.href = s.url; a.textContent = s.url;
+        document.getElementById("result").classList.remove("hidden");
+        document.getElementById("copy").onclick = function () { navigator.clipboard.writeText(s.url); this.textContent = EN ? "Copied" : "已复制"; };
+        return;
+      }
+      setTimeout(poll, 1500);
+    }).catch(function () { setTimeout(poll, 3000); });
+  }
+})();
+</script>
+</body>
+</html>

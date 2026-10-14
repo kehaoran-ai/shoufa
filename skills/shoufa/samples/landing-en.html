@@ -1,0 +1,116 @@
+<style>
+.run { position: relative; display: grid; gap: 18px; padding: 22px; background: var(--nt-surface); }
+.run-head { display: flex; align-items: center; gap: 10px; font-size: var(--nt-text-sm); color: var(--nt-ink-2); }
+.run-head b { color: var(--nt-ink); font-weight: 600; }
+.run-head time { margin-left: auto; font: 500 var(--nt-text-xs)/1 var(--nt-mono); color: var(--nt-ink-3); }
+.run-live { width: 8px; height: 8px; border-radius: 50%; background: var(--nt-accent); box-shadow: 0 0 0 4px var(--nt-accent-soft); animation: run-pulse 1.6s ease-in-out infinite; }
+.run-task { padding: 14px 16px; border: 1px solid var(--nt-line); border-radius: var(--nt-radius-sm); background: var(--nt-sunken); font-size: 15px; line-height: 24px; }
+.run-task small { display: block; margin-bottom: 4px; font-size: var(--nt-text-xs); color: var(--nt-ink-3); }
+.run-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.run-steps li { display: grid; grid-template-columns: 20px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 9px 10px; margin: 0 -10px; border-radius: var(--nt-radius-sm); font-size: var(--nt-text-sm); line-height: 20px; }
+.run-steps li > i { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--nt-line-strong); }
+.run-steps li.ok > i { border-color: var(--nt-ink); background: var(--nt-ink) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5.5 10.2l3 3 6-6' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/12px no-repeat; }
+.run-steps li.now { background: var(--nt-accent-soft); color: var(--nt-accent-ink); font-weight: 600; }
+.run-steps li.now > i { border-color: var(--nt-accent); border-top-color: transparent; animation: run-spin .9s linear infinite; }
+.run-steps li.todo { color: var(--nt-ink-3); }
+.run-steps time { font: 500 var(--nt-text-xs)/1 var(--nt-mono); color: var(--nt-ink-3); }
+.run-now-text { background: linear-gradient(90deg, currentColor 40%, var(--nt-accent-line) 50%, currentColor 60%) 0 0 / 300% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: run-shine 2.4s linear infinite; }
+.run-bar { height: 4px; border-radius: 2px; background: var(--nt-sunken); overflow: hidden; }
+.run-bar::before { content: ""; display: block; width: 62%; height: 100%; border-radius: 2px; background: var(--nt-accent); }
+.run-foot { display: flex; align-items: center; gap: 8px; font-size: var(--nt-text-xs); color: var(--nt-ink-3); }
+.run-foot .nt-btn { margin-left: auto; }
+.plan { margin: 0; padding: 0; list-style: none; counter-reset: plan; }
+.plan li { counter-increment: plan; display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--nt-line); font-size: var(--nt-text-sm); }
+.plan li:last-child { border-bottom: 0; }
+.plan li::before { content: counter(plan, decimal-leading-zero); font: 500 var(--nt-text-xs)/20px var(--nt-mono); color: var(--nt-ink-3); }
+.plan li.is-stop { color: var(--nt-accent-ink); }
+@keyframes run-pulse { 50% { box-shadow: 0 0 0 7px transparent; } }
+@keyframes run-spin { to { transform: rotate(360deg); } }
+@keyframes run-shine { to { background-position: -150% 0; } }
+@media (prefers-reduced-motion: reduce) { .run-live, .run-steps li.now > i, .run-now-text { animation: none; } }
+</style>
+<header class="nt-topbar">
+  <div class="nt-wrap nt-row">
+    <a class="nt-brand" href="#">Relay</a>
+    <span class="nt-grow"></span>
+    <nav class="nt-nav" aria-label="Main"><a href="#how">How it works</a><a href="#pricing">Pricing</a><a href="#faq">Questions</a><a class="nt-btn nt-btn--primary nt-btn--sm" href="#start">Try it free</a></nav>
+  </div>
+</header>
+<main>
+  <section class="nt-wrap nt-hero nt-split">
+    <div>
+      <span class="nt-tag nt-tag--accent">New · reads Google Sheets</span>
+      <h1 style="margin-top:20px">Say it once.<br>It does the busywork.</h1>
+      <p class="nt-lede">Expense reports, messy spreadsheets, client emails. Relay opens the tools you already use, works the way you do, and shows you the result before it sends anything.</p>
+      <div class="nt-actions"><a class="nt-btn nt-btn--primary nt-btn--lg" href="#start">Try it free</a><a class="nt-btn nt-btn--lg" href="#how">See how it works</a></div>
+    </div>
+    <figure class="nt-figure" style="margin:0">
+      <div class="nt-frame">
+        <div class="run" role="img" aria-label="Relay running a task: two steps done, checking the third">
+          <div class="run-head"><span class="run-live"></span><b>Relay</b>is working<time>02:14</time></div>
+          <div class="run-task"><small>You said</small>Sort out October's expenses and match them to the bank statement</div>
+          <ol class="run-steps">
+            <li class="ok"><i></i><span>Found 23 receipts in your inbox</span><time>00:12</time></li>
+            <li class="ok"><i></i><span>Read amounts, dates and vendors</span><time>00:48</time></li>
+            <li class="now"><i></i><span class="run-now-text">Matching the statement, 21 done</span><time>01:14</time></li>
+            <li class="todo"><i></i><span>Build the report, wait for your OK</span><time></time></li>
+          </ol>
+          <div class="run-bar"></div>
+          <div class="run-foot"><span>Step 3 of 4</span><a class="nt-btn nt-btn--sm" href="#">Details</a></div>
+        </div>
+      </div>
+    </figure>
+  </section>
+  <section class="nt-wrap"><div class="nt-metrics" style="margin:0">
+    <div class="nt-metric"><b>6 hrs</b><span>of busywork saved a week</span></div>
+    <div class="nt-metric"><b>40+</b><span>tools it can open</span></div>
+    <div class="nt-metric"><b>$9</b><span>a month for Pro</span></div>
+    <div class="nt-metric"><b>0</b><span>things sent without your OK</span></div>
+  </div></section>
+  <section class="nt-wrap nt-section nt-split" id="how" style="align-items:center">
+    <div>
+      <div class="nt-section-head" style="margin-bottom:0"><h2>It shows you the plan first</h2><p>Before each task, Relay lists the steps it will take. It starts once you have looked. When something is unclear, it stops and asks.</p></div>
+      <ul class="nt-checks" style="margin-top:24px"><li>Every step is logged, so you can look back</li><li>Paying, sending or deleting always needs your OK</li><li>Run a task once, repeat it with one sentence</li></ul>
+    </div>
+    <div class="nt-card" style="padding:8px 24px">
+      <ol class="plan">
+        <li>Open your inbox and find October's receipts</li>
+        <li>Read the amount, date and vendor on each</li>
+        <li>Match them line by line to the bank statement</li>
+        <li class="is-stop">Stop on anything that doesn't match, and show you</li>
+        <li>Fill in your company's template, then wait for your OK</li>
+      </ol>
+    </div>
+  </section>
+  <section class="nt-wrap nt-section" style="padding-top:0">
+    <div class="nt-section-head"><h2>The chores you repeat every week</h2></div>
+    <div class="nt-features">
+      <div class="nt-feature"><svg class="nt-line" viewBox="0 0 44 44" aria-hidden="true"><rect x="7" y="9" width="30" height="26" rx="3"/><path d="M7 16 H37"/><g class="is-accent"><path d="M15 25 L20 30 L29 21"/></g></svg><h3>Expenses</h3><p>Receipts, statement and report, all lined up before they go in.</p></div>
+      <div class="nt-feature"><svg class="nt-line" viewBox="0 0 44 44" aria-hidden="true"><path d="M7 12 L22 23 L37 12"/><rect x="7" y="10" width="30" height="24" rx="3"/><g class="is-accent"><circle cx="35" cy="11" r="4"/></g></svg><h3>Client email</h3><p>Drafts in the voice of your past replies. Change a line and send.</p></div>
+      <div class="nt-feature"><svg class="nt-line" viewBox="0 0 44 44" aria-hidden="true"><rect x="7" y="7" width="30" height="30" rx="3"/><path d="M7 17 H37 M7 27 H37 M19 7 V37"/><g class="is-accent"><path d="M23 22 H33"/></g></svg><h3>Spreadsheets</h3><p>Merges data from several sheets, removes duplicates, fills the gaps.</p></div>
+      <div class="nt-feature"><svg class="nt-line" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="15"/><g class="is-accent"><path d="M22 13 V22 L28 26"/></g></svg><h3>On a schedule</h3><p>Monday at nine, last week's report is already in your inbox.</p></div>
+    </div>
+  </section>
+  <section class="nt-wrap nt-section" id="pricing" style="padding-top:0">
+    <div class="nt-section-head"><h2>Start free, upgrade when it earns it</h2></div>
+    <div class="nt-pricing">
+      <div class="nt-card nt-price"><div><span class="nt-tag">Free</span></div><div class="nt-price-amount">$0<small>a month</small></div>
+        <ul class="nt-checks"><li>30 tasks a month</li><li>Connect 3 tools</li></ul><a class="nt-btn" href="#start">Try it free</a></div>
+      <div class="nt-card nt-card--featured nt-price"><div><span class="nt-tag nt-tag--accent">Pro · Popular</span></div><div class="nt-price-amount">$9<small>a month</small></div>
+        <ul class="nt-checks"><li>Unlimited tasks</li><li>Every tool</li><li>Scheduled runs</li></ul><a class="nt-btn nt-btn--primary" href="#start">Go Pro</a></div>
+    </div>
+  </section>
+  <section class="nt-wrap nt-section" id="faq" style="padding-top:0">
+    <div class="nt-section-head"><h2>Questions</h2></div>
+    <div class="nt-faq" style="max-width:780px">
+      <details open><summary>Will it click or send things on its own?</summary><div>No. Paying, sending and deleting always stop for your OK first.</div></details>
+      <details><summary>Is it safe to connect my accounts?</summary><div>Relay never stores your passwords. It uses each tool's official sign-in, and you can revoke it any time in settings.</div></details>
+      <details><summary>Who do I ask for help?</summary><div>Write to <a href="mailto:hi@relay.example">hi@relay.example</a> and we'll get back to you soon.</div></details>
+    </div>
+  </section>
+  <section class="nt-wrap" id="start"><div class="nt-cta">
+    <div><h2>Hand Relay your next chore</h2><p class="nt-muted" style="margin:12px 0 0">The free plan covers 30 tasks a month. Decide about Pro after that.</p></div>
+    <a class="nt-btn nt-btn--primary nt-btn--lg" href="#">Try it free</a>
+  </div></section>
+</main>
+<footer class="nt-footer"><div class="nt-wrap nt-row"><span>Relay</span><span class="nt-grow"></span><a href="mailto:hi@relay.example">Contact</a><a href="#">Privacy</a><a href="#">Terms</a></div></footer>

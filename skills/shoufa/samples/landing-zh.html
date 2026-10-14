@@ -1,0 +1,116 @@
+<style>
+.run { position: relative; display: grid; gap: 18px; padding: 22px; background: var(--nt-surface); }
+.run-head { display: flex; align-items: center; gap: 10px; font-size: var(--nt-text-sm); color: var(--nt-ink-2); }
+.run-head b { color: var(--nt-ink); font-weight: 600; }
+.run-head time { margin-left: auto; font: 500 var(--nt-text-xs)/1 var(--nt-mono); color: var(--nt-ink-3); }
+.run-live { width: 8px; height: 8px; border-radius: 50%; background: var(--nt-accent); box-shadow: 0 0 0 4px var(--nt-accent-soft); animation: run-pulse 1.6s ease-in-out infinite; }
+.run-task { padding: 14px 16px; border: 1px solid var(--nt-line); border-radius: var(--nt-radius-sm); background: var(--nt-sunken); font-size: 15px; line-height: 24px; }
+.run-task small { display: block; margin-bottom: 4px; font-size: var(--nt-text-xs); color: var(--nt-ink-3); }
+.run-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.run-steps li { display: grid; grid-template-columns: 20px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 9px 10px; margin: 0 -10px; border-radius: var(--nt-radius-sm); font-size: var(--nt-text-sm); line-height: 20px; }
+.run-steps li > i { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--nt-line-strong); }
+.run-steps li.ok > i { border-color: var(--nt-ink); background: var(--nt-ink) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5.5 10.2l3 3 6-6' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/12px no-repeat; }
+.run-steps li.now { background: var(--nt-accent-soft); color: var(--nt-accent-ink); font-weight: 600; }
+.run-steps li.now > i { border-color: var(--nt-accent); border-top-color: transparent; animation: run-spin .9s linear infinite; }
+.run-steps li.todo { color: var(--nt-ink-3); }
+.run-steps time { font: 500 var(--nt-text-xs)/1 var(--nt-mono); color: var(--nt-ink-3); }
+.run-now-text { background: linear-gradient(90deg, currentColor 40%, var(--nt-accent-line) 50%, currentColor 60%) 0 0 / 300% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: run-shine 2.4s linear infinite; }
+.run-bar { height: 4px; border-radius: 2px; background: var(--nt-sunken); overflow: hidden; }
+.run-bar::before { content: ""; display: block; width: 62%; height: 100%; border-radius: 2px; background: var(--nt-accent); }
+.run-foot { display: flex; align-items: center; gap: 8px; font-size: var(--nt-text-xs); color: var(--nt-ink-3); }
+.run-foot .nt-btn { margin-left: auto; }
+.plan { margin: 0; padding: 0; list-style: none; counter-reset: plan; }
+.plan li { counter-increment: plan; display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--nt-line); font-size: var(--nt-text-sm); }
+.plan li:last-child { border-bottom: 0; }
+.plan li::before { content: counter(plan, decimal-leading-zero); font: 500 var(--nt-text-xs)/20px var(--nt-mono); color: var(--nt-ink-3); }
+.plan li.is-stop { color: var(--nt-accent-ink); }
+@keyframes run-pulse { 50% { box-shadow: 0 0 0 7px transparent; } }
+@keyframes run-spin { to { transform: rotate(360deg); } }
+@keyframes run-shine { to { background-position: -150% 0; } }
+@media (prefers-reduced-motion: reduce) { .run-live, .run-steps li.now > i, .run-now-text { animation: none; } }
+</style>
+<header class="nt-topbar">
+  <div class="nt-wrap nt-row">
+    <a class="nt-brand" href="#">接力</a>
+    <span class="nt-grow"></span>
+    <nav class="nt-nav" aria-label="主导航"><a href="#how">怎么干活</a><a href="#pricing">价格</a><a href="#faq">常见问题</a><a class="nt-btn nt-btn--primary nt-btn--sm" href="#start">免费试用</a></nav>
+  </div>
+</header>
+<main>
+  <section class="nt-wrap nt-hero nt-split">
+    <div>
+      <span class="nt-tag nt-tag--accent">新 · 能读飞书表格了</span>
+      <h1 style="margin-top:20px">一句话交代，<br>它在后台做完</h1>
+      <p class="nt-lede">报销对账、整理表格、回客户邮件。接力打开你常用的工具，照你的习惯做，做完先给你过目再提交。</p>
+      <div class="nt-actions"><a class="nt-btn nt-btn--primary nt-btn--lg" href="#start">免费试用</a><a class="nt-btn nt-btn--lg" href="#how">看它怎么干活</a></div>
+    </div>
+    <figure class="nt-figure" style="margin:0">
+      <div class="nt-frame">
+        <div class="run" role="img" aria-label="接力正在执行一个任务：已完成两步，正在核对第三步">
+          <div class="run-head"><span class="run-live"></span><b>接力</b>正在运行<time>02:14</time></div>
+          <div class="run-task"><small>你说</small>把 10 月的报销单整理好，对上银行流水</div>
+          <ol class="run-steps">
+            <li class="ok"><i></i><span>从邮箱里找到 23 张发票</span><time>00:12</time></li>
+            <li class="ok"><i></i><span>读出金额、日期和抬头</span><time>00:48</time></li>
+            <li class="now"><i></i><span class="run-now-text">对照招行流水，已对上 21 笔</span><time>01:14</time></li>
+            <li class="todo"><i></i><span>生成报销表，等你确认</span><time></time></li>
+          </ol>
+          <div class="run-bar"></div>
+          <div class="run-foot"><span>第 3 步，共 4 步</span><a class="nt-btn nt-btn--sm" href="#">查看细节</a></div>
+        </div>
+      </div>
+    </figure>
+  </section>
+  <section class="nt-wrap"><div class="nt-metrics" style="margin:0">
+    <div class="nt-metric"><b>6 小时</b><span>每周省下的杂事时间</span></div>
+    <div class="nt-metric"><b>40+</b><span>能直接打开的常用工具</span></div>
+    <div class="nt-metric"><b>¥49</b><span>专业版每月</span></div>
+    <div class="nt-metric"><b>0 次</b><span>没经你同意就提交</span></div>
+  </div></section>
+  <section class="nt-wrap nt-section nt-split" id="how" style="align-items:center">
+    <div>
+      <div class="nt-section-head" style="margin-bottom:0"><h2>先给你看计划，再动手</h2><p>每个任务开始前，接力把要做的几步列出来。你看一眼没问题，它才开始。拿不准的地方，它会停下来问你。</p></div>
+      <ul class="nt-checks" style="margin-top:24px"><li>每一步都留记录，随时能回看</li><li>涉及付款、发送、删除的动作，一定先问你</li><li>做过一次的任务，下次一句话就能再做</li></ul>
+    </div>
+    <div class="nt-card" style="padding:8px 24px">
+      <ol class="plan">
+        <li>打开邮箱，找出 10 月带发票的邮件</li>
+        <li>读出每张发票的金额、日期、抬头</li>
+        <li>和招行 10 月流水逐笔核对</li>
+        <li class="is-stop">对不上的先停下，列给你看</li>
+        <li>按公司模板生成报销表，等你确认</li>
+      </ol>
+    </div>
+  </section>
+  <section class="nt-wrap nt-section" style="padding-top:0">
+    <div class="nt-section-head"><h2>每周重复的那些事，交给它</h2></div>
+    <div class="nt-features">
+      <div class="nt-feature"><svg class="nt-line" viewBox="0 0 44 44" aria-hidden="true"><rect x="7" y="9" width="30" height="26" rx="3"/><path d="M7 16 H37"/><g class="is-accent"><path d="M15 25 L20 30 L29 21"/></g></svg><h3>报销和对账</h3><p>发票、流水、报销表，三样对齐了再交。</p></div>
+      <div class="nt-feature"><svg class="nt-line" viewBox="0 0 44 44" aria-hidden="true"><path d="M7 12 L22 23 L37 12"/><rect x="7" y="10" width="30" height="24" rx="3"/><g class="is-accent"><circle cx="35" cy="11" r="4"/></g></svg><h3>回客户邮件</h3><p>先按你以前的回信写草稿，你改两句就能发。</p></div>
+      <div class="nt-feature"><svg class="nt-line" viewBox="0 0 44 44" aria-hidden="true"><rect x="7" y="7" width="30" height="30" rx="3"/><path d="M7 17 H37 M7 27 H37 M19 7 V37"/><g class="is-accent"><path d="M23 22 H33"/></g></svg><h3>整理表格</h3><p>把散在几个表里的数据合到一起，去重、补齐。</p></div>
+      <div class="nt-feature"><svg class="nt-line" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="15"/><g class="is-accent"><path d="M22 13 V22 L28 26"/></g></svg><h3>按时自己跑</h3><p>每周一早上九点，上周的周报已经在你邮箱里了。</p></div>
+    </div>
+  </section>
+  <section class="nt-wrap nt-section" id="pricing" style="padding-top:0">
+    <div class="nt-section-head"><h2>先免费用着，好用再升级</h2></div>
+    <div class="nt-pricing">
+      <div class="nt-card nt-price"><div><span class="nt-tag">免费版</span></div><div class="nt-price-amount">¥0<small>每月</small></div>
+        <ul class="nt-checks"><li>每月 30 个任务</li><li>连接 3 个工具</li></ul><a class="nt-btn" href="#start">免费试用</a></div>
+      <div class="nt-card nt-card--featured nt-price"><div><span class="nt-tag nt-tag--accent">专业版 · 推荐</span></div><div class="nt-price-amount">¥49<small>每月</small></div>
+        <ul class="nt-checks"><li>任务不限次数</li><li>连接全部工具</li><li>定时自动运行</li></ul><a class="nt-btn nt-btn--primary" href="#start">升级专业版</a></div>
+    </div>
+  </section>
+  <section class="nt-wrap nt-section" id="faq" style="padding-top:0">
+    <div class="nt-section-head"><h2>常见问题</h2></div>
+    <div class="nt-faq" style="max-width:780px">
+      <details open><summary>它会不会乱点、乱发？</summary><div>不会。付款、发送、删除这类动作，接力一定先停下来问你，你点了确认才做。</div></details>
+      <details><summary>我的账号密码给它安全吗？</summary><div>接力不保存你的密码，用的是各个工具官方的授权方式，随时可以在设置里收回。</div></details>
+      <details><summary>有问题找谁？</summary><div>写信到 <a href="mailto:hi@jieli.example">hi@jieli.example</a>，我们会尽快回复。</div></details>
+    </div>
+  </section>
+  <section class="nt-wrap" id="start"><div class="nt-cta">
+    <div><h2>下一件杂事，交给接力试试</h2><p class="nt-muted" style="margin:12px 0 0">免费版每月 30 个任务，用完再决定要不要升级。</p></div>
+    <a class="nt-btn nt-btn--primary nt-btn--lg" href="#">免费试用</a>
+  </div></section>
+</main>
+<footer class="nt-footer"><div class="nt-wrap nt-row"><span>接力</span><span class="nt-grow"></span><a href="mailto:hi@jieli.example">联系我们</a><a href="#">隐私</a><a href="#">条款</a></div></footer>

@@ -1,0 +1,42 @@
+/* Look: soft (柔和). Warm off-white paper, white panels with large round
+   corners and a soft lift, pill buttons filled with the picked colour, round
+   portraits, Inter. Neutrals stay pure grey. */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400..800&display=swap");
+:root {
+  --background: #fbf9f4;
+  --foreground: #191919;
+  --card: #ffffff;
+  --primary: var(--nt-accent);
+  --primary-foreground: #ffffff;
+  --secondary: #f1f1f1;
+  --muted: #f8f8f8;
+  --muted-foreground: #656565;
+  --border: #ebebeb;
+  --input: #e0e0e0;
+  --radius: 0.75rem;
+  --font-sans: "Inter", ui-sans-serif, -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --shadow-xs: 0 1px 2px rgb(0 0 0 / .04);
+  --shadow-sm: 0 6px 16px rgb(0 0 0 / .08);
+  --nt-accent: #f43f5e;
+  --nt-radius: 20px; --nt-radius-lg: 28px;
+}
+.nt-btn { border-radius: 999px; }
+.nt-btn--primary { color: #fff; }
+.nt-btn--primary:hover { background: var(--nt-accent-ink); border-color: var(--nt-accent-ink); }
+.nt-card { border-color: transparent; box-shadow: var(--shadow-sm); }
+.nt-work-thumb { border-radius: 20px; border: 0; }
+.nt-tag { border-radius: 999px; border: 0; background: var(--secondary); }
+.nt-tag--accent { background: var(--nt-accent-soft); color: var(--nt-accent-ink); }
+.nt-brand::before { border-radius: 50%; }
+.nt-portrait { border-radius: 50%; aspect-ratio: 1; border: 0; }
+.nt-topbar { border-bottom-color: transparent; }
+/* Signature: no hairlines or crop marks; round white panels that float. */
+.nt-figure > .nt-frame { border: 0; border-radius: 28px; overflow: hidden; background: var(--card); box-shadow: var(--shadow-sm); }
+.nt-figure > .nt-frame::before { display: none; }
+.nt-metrics { border: 0; gap: 12px; }
+.nt-metric, .nt-metric + .nt-metric { border: 0; border-radius: 20px; background: var(--card); padding: var(--nt-5); box-shadow: var(--shadow-xs); }
+.nt-hero h1 { font-weight: 700; }
+.nt-faq details { border: 0; background: var(--card); border-radius: 16px; padding: 0 var(--nt-5); margin-bottom: 8px; }
+.nt-faq { border: 0; }
+.nt-cta { background: var(--card); border: 0; border-radius: 28px; box-shadow: var(--shadow-sm); }
+.nt-work-thumb { background: var(--card); box-shadow: var(--shadow-sm); }

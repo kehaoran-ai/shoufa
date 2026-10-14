@@ -1,0 +1,23 @@
+{
+  "name": "shoufa",
+  "version": "0.1.0",
+  "description": "Turn an idea into your first live product without writing code: pick choices in the browser, get a personal homepage, a product page or a small working tool, preview it, and put it online for free.",
+  "author": {
+    "name": "Ke Haoran",
+    "url": "https://github.com/kehaoran-ai"
+  },
+  "homepage": "https://shoufa.kehaoran.ai",
+  "repository": "https://github.com/kehaoran-ai/shoufa",
+  "license": "MIT",
+  "keywords": [
+    "beginner",
+    "website",
+    "landing-page",
+    "personal-site",
+    "web-app",
+    "shadcn",
+    "cloudflare",
+    "no-code",
+    "skill"
+  ]
+}
